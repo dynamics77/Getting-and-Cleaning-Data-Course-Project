@@ -1,5 +1,4 @@
 #clear workspace
-
 rm(list=ls())
 #load libraries
 
@@ -34,11 +33,10 @@ names(df.x)<-make.names(features[,2],unique=TRUE)
 #I have made sure  that I do not include variable names like "meanFreq"
 # will return 10299 obs. of  66 variables: 33 std() and 33 mean()
 
-df.x%<>%select(-contains(".mean."),-contains("std"))
+df.x%<>%select(contains(".mean."),contains("std"))
 
 #make variable names even prettier
 #remove extra dots from variable names
-
   names(df.x)%<>%
   gsub("...X",".X", .)%>%
   gsub("...Y",".Y", .)%>%
@@ -72,6 +70,7 @@ df.y%<>%transmute(activity=ifelse(activity=="1","walking",
 
 #Finally combine X, Y and subject data frames to get tidy data
 #df.all is the tidy data set
+
 df.all<-bind_cols(df.s,df.y,df.x)
 
 #write tidy data to file
