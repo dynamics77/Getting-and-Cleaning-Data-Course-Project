@@ -21,7 +21,7 @@ if(!require(dplyr) | !require(tidyr) | !require(magrittr)) {
 #read data
 
 X_test <- read.table("~/Downloads/UCI HAR Dataset/test/X_test.txt", quote="\"", stringsAsFactors=FALSE)
-X_train <- read.table("~Downloads/UCI HAR Dataset/train/X_train.txt", quote="\"", stringsAsFactors=FALSE)
+X_train <- read.table("~/Downloads/UCI HAR Dataset/train/X_train.txt", quote="\"", stringsAsFactors=FALSE)
 
 #Combine test and train "X" dataset
 df.x<-bind_rows(X_train,X_test)
