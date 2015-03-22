@@ -14,6 +14,7 @@
     - Extract only the measurements on the mean() and standard deviation std() for each measurement.This results in a 66 indices list. I have made sure that I do NOT include variable names like "meanFreq" as these are not true means. Clearly,  "[features_info.txt](https://github.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/blob/master/UCI%20HAR%20Dataset/features_info.txt)" suggests that the sum of Count feature vector for each pattern is 33! Total of std() and mean() makes 66 variables. 
     - Then make variable names even prettier by removing extra dots from variable names, etc.
     - Final 66 variables that are measurements on the mean and standard deviation for each measurement are the following. Note that comapred to names of features in the "[features_info.txt](https://github.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/blob/master/UCI%20HAR%20Dataset/features_info.txt)", I have replaced "()" and "-" with "." Other than that the meaning of these features is the same as described in the "[features_info.txt](https://github.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/blob/master/UCI%20HAR%20Dataset/features_info.txt)" and "[README.txt](https://github.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/tree/master/UCI%20HAR%20Dataset)".
+    - 
              tBodyAcc.mean.X
              tBodyAcc.mean.Y
              tBodyAcc.mean.Z
@@ -80,6 +81,7 @@
              fBodyBodyAccJerkMag.std
              fBodyBodyGyroMag.std
              fBodyBodyGyroJerkMag.std
+
     - Read "subject" train and test data files from test and train subdirectories.
     - Combine test and train subject data files into one data.frame "df.s"
     - Label the new variable as "subject"
