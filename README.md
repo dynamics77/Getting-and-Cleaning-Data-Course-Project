@@ -20,7 +20,7 @@ files named "tidydata.txt" and "tidy_data_avg.txt" in your current folder.
 7. Previously, saved tidy datasets in Step 4 can be downloaded and read as following in R:
 
      **Download files**:
-      - url<-"https://raw.githubusercontent.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/master/tidydata.txt"
+    - url<-"https://raw.githubusercontent.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/master/tidydata.txt"
     - download.file(url,destfile = "tidydata.txt",method="curl")
     - url1<-"https://github.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/blob/master/tidy_data_avg.txt"
     - download.file(url1,destfile = "tidy_data_avg.txt",method="curl")
