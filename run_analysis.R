@@ -1,16 +1,18 @@
 #usage: source("run_analysis.R)
-#NOTE: 
-#make sure you have dowloaded and unzipped the data following this link:
+#output: "tidydata.txt" and "tidy_data_avg.txt"
+
+#Make sure you have dowloaded and unzipped the data following this link:
 # https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
-# You should now have "UCI HAR Dataset" folder. 
+#You should now have "UCI HAR Dataset" folder. 
 #Change directory to "UCI HAR Dataset" folder. 
-#copy the "run_analaysis.R" script in the UCI HAR Dataset folder.
+#Copy the "run_analaysis.R" script in the UCI HAR Dataset folder.
 #make sure all required packages are installed.
 #usage: source("run_analysis.R")
+#Read more here:
+#https://github.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/blob/master/README.md
 
-#Troubleshoot: If for some reason the script fails to run. 
+#Troubleshoot: If for some reason this R script fails to run. 
 #I suggest restarting R and then reruning the script.
-#Please make sure you run this script from the UCI HAR Dataset directory/folder.
 
 #clear workspace
 rm(list=ls())

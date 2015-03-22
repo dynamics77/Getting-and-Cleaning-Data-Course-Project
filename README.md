@@ -1,6 +1,3 @@
----
-output: html_document
----
 
 #Following steps describe how to run the "run_analysis.R" script and what it does:
 
