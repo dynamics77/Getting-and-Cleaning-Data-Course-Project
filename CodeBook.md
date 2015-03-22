@@ -5,7 +5,6 @@
     - Please see "[features_info.txt](https://github.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/blob/master/UCI%20HAR%20Dataset/features_info.txt)" from the zip file for information on the original data set columns or see "[README.txt](https://github.com/dynamics77/Getting-and-Cleaning-Data-Course-Project/tree/master/UCI%20HAR%20Dataset)" for additional information". 
     - Addtional information of variables in the dataset can be found here:
     http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
-    
 2. Steps taken to clean the data as implemented in the "run_analysis.R script" are as follows:
     - Read the X test and training data from respective subfolders "test" and "train"
     - Combine test and train "X" datasets.
@@ -93,4 +92,3 @@
     - Write tidy data to txt file named "tidydata.txt" for uploading on github.
     - Calculate independent tidy data set with the average of each variable for each activity and each subject. For this transform tidy data created above ("df.all") to extract only average per subject and activity. Final data frame has 180 obs. of  68 variables.
     -  Write final tidy data to txt file "tidy_data_avg.txt" that includes average of each variable for each activity and each subject.
-    
