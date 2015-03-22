@@ -1,3 +1,17 @@
+#usage: source("run_analysis.R)
+#NOTE: 
+#make sure you have dowloaded and unzipped the data following this link:
+# https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+# You should now have "UCI HAR Dataset" folder. 
+#Change directory to "UCI HAR Dataset" folder. 
+#copy the "run_analaysis.R" script in the UCI HAR Dataset folder.
+#make sure all required packages are installed.
+#usage: source("run_analysis.R")
+
+#Troubleshoot: If for some reason the script fails to run. 
+#I suggest restarting R and then reruning the script.
+#Please make sure you run this script from the UCI HAR Dataset directory/folder.
+
 #clear workspace
 rm(list=ls())
 #load libraries
@@ -11,56 +25,62 @@ if(!require(dplyr) | !require(tidyr) | !require(magrittr)) {
   stop('The required packages not installed')
 }
 
-#check if the file is located in the current working directory
 
-#if (!file.exists("household_power_consumption.txt")){
-#  stop("Error, file household_power_consumption.txt not found in current directory")
-#}
+#Read the X test and training data from respective subfolders "test" and "train"
 
-#read data
+X_test <- read.table("test/X_test.txt", quote="\"", stringsAsFactors=FALSE)
+X_train <- read.table("train/X_train.txt", quote="\"", stringsAsFactors=FALSE)
 
-X_test <- read.table("~/Downloads/UCI HAR Dataset/test/X_test.txt", quote="\"", stringsAsFactors=FALSE)
-X_train <- read.table("~/Downloads/UCI HAR Dataset/train/X_train.txt", quote="\"", stringsAsFactors=FALSE)
-
-#Combine test and train "X" dataset
+#Combine test and train "X" datasets
+#Do rowise binding of two datasets using "bind_rows()" from dplyr
 df.x<-bind_rows(X_train,X_test)
 
-#name variables. 
-features <- read.table("~/Downloads/UCI HAR Dataset/features.txt", quote="\"", stringsAsFactors=FALSE)
+#Label the data set with descriptive variable names.
+#First, read features.txt 
+#Then use make.names() to create legal R variable names.
+features <- read.table("features.txt", quote="\"", stringsAsFactors=FALSE)
 names(df.x)<-make.names(features[,2],unique=TRUE)
 
-#subset data --select only mean() and std() variables
-#I have made sure  that I do not include variable names like "meanFreq"
-# will return 10299 obs. of  66 variables: 33 std() and 33 mean()
+#Extract only the measurements on the mean() and standard deviation std() for each measurement.
+#I have made sure that I do NOT include variable names like "meanFreq" as these are not true means. 
+# Features_info.txt is quite clear about it. Sum of Count feature vector for each pattern is 33!
+# Following lines of code will return 10299 obs. of  66 variables: 33 std() and 33 mean()
 
 df.x%<>%select(contains(".mean."),contains("std"))
 
-#make variable names even prettier
-#remove extra dots from variable names
-  names(df.x)%<>%
+# Now make variable names even prettier
+# For example remove extra dots from variable names, etc.
+
+names(df.x)%<>%
   gsub("...X",".X", .)%>%
   gsub("...Y",".Y", .)%>%
   gsub("...Z",".Z", .)%>%
   gsub("..","", .,fixed=TRUE)
 
-#Read "subject" train and test data files
-subject_train <- read.table("~/Downloads/UCI HAR Dataset/train/subject_train.txt", quote="\"", stringsAsFactors=FALSE)
-subject_test <- read.table("~/Downloads/UCI HAR Dataset/test/subject_test.txt", quote="\"", stringsAsFactors=FALSE)
+#Read "subject" train and test data files from test and train subdirectories
+subject_train <- read.table("train/subject_train.txt", quote="\"", stringsAsFactors=FALSE)
+subject_test <- read.table("test/subject_test.txt", quote="\"", stringsAsFactors=FALSE)
 
-#Combine test and train subject data and name the variable as "subject"
+#Combine test and train subject data files into one data.frame "df.s"
 df.s<-bind_rows(subject_train,subject_test)
+
+#Label the new variable as "subject"
 names(df.s)<-"subject"
 
-#read Y test and train data sets
-y_train <- read.table("~/Downloads/UCI HAR Dataset/train/y_train.txt", quote="\"", stringsAsFactors=FALSE)
-y_test <- read.table("~/Downloads/UCI HAR Dataset/test/y_test.txt", quote="\"", stringsAsFactors=FALSE)
+#Now read Y test and train data sets from subdirectories test and train respectively.
+y_train <- read.table("train/y_train.txt", quote="\"", stringsAsFactors=FALSE)
+y_test <- read.table("test/y_test.txt", quote="\"", stringsAsFactors=FALSE)
 
-#Combine Y test and train data sets and name the variable "activity"
+#Combine Y test and train data sets into one data.frame "df.y"
 df.y<-bind_rows(y_train,y_test)
+
+#Label the variable  as "activity"
 names(df.y)<-"activity"
 
-# Descriptive activity names
-# Replace numbers with meaningful acitivity labels in the "activity" column
+# Name the activities in the data set using descriptive activity names
+# Following code replaces numbers with meaningful acitivity labels 
+#using naming convention from activity_labels.txt
+
 df.y%<>%transmute(activity=ifelse(activity=="1","walking",
                     ifelse(activity=="2","walking_upstairs",
                         ifelse(activity=="3","walking_downstairs",
@@ -68,22 +88,29 @@ df.y%<>%transmute(activity=ifelse(activity=="1","walking",
                                   ifelse(activity=="5","standing",
                                          ifelse(activity=="6","laying",NA)))))))
 
-#Finally combine X, Y and subject data frames to get tidy data
-#df.all is the tidy data set
+#Finally, combine X, Y and subject data frames to get tidy data
+#df.all is the combined final tidy data set
 
 df.all<-bind_cols(df.s,df.y,df.x)
 
-#write tidy data to file
-#write.table(df.all,file="tidydata.txt",row.names=FALSE)
+#Write tidy data to txt file for uploading on github
+write.table(df.all,file="tidydata.txt",row.names=FALSE)
 
-#independent tidy data set with the average of each variable for each activity and each subject.
-#Transform clean data to extract only average per subject and activity
-# final data frame has 180 obs. of  68 variables:
+#To read the above saved tidy data--uncomment line below.
+#read.table("tidydata.txt", header=TRUE)
+
+#Calculate independent tidy data set with the average of each variable 
+#for each activity and each subject.
+#Transform tidy data created above to extract only average per subject and activity
+# Final data frame has 180 obs. of  68 variables:
 
 df.by_subject_activity<-df.all%>%
-  group_by(subject,activity)%>%
-  summarise_each(funs(mean))
+                        group_by(subject,activity)%>%
+                        summarise_each(funs(mean))
 
-#write data to file
-#write.table(df.by_subject_activity,file="tidy_data_avg.txt",row.names = FALSE)
+#Write final tidy data to txt file that includes
+#average of each variable for each activity and each subject.
+write.table(df.by_subject_activity,file="tidy_data_avg.txt",row.names = FALSE)
 
+#To read the file -uncomment line below
+#read.table("tidy_data_avg.txt", header=TRUE)
